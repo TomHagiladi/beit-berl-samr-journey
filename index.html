@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0F5257">
+  <meta name="description" content="מסע למידה מונחה על מודל SAMR לשילוב בינה מלאכותית בהוראה - מפגש 2, צוות החינוך המיוחד, מכללת בית ברל. האפליקציה מובילה שלב אחר שלב: היכרות עם המודל בשיחה עם הבינה, שיחה בזוגות, שדרוג שיעור אמיתי ורפלקציית מראה.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:title" content="מסע למידה: מודל SAMR · מפגש 2 · בית ברל">
+  <meta property="og:description" content="האפליקציה תוביל אתכן שלב אחר שלב: היכרות עם המודל בשיחה עם הבינה, שיחה בזוגות, שדרוג שיעור אמיתי ורפלקציית מראה.">
+
+  <title>מסע למידה: מודל SAMR · מפגש 2 · חינוך מיוחד, בית ברל</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230F5257'/%3E%3Cpath d='M18 44 Q26 36 22 28 T34 18' fill='none' stroke='%23FAF6EE' stroke-width='4' stroke-dasharray='2 6' stroke-linecap='round'/%3E%3Ccircle cx='42' cy='20' r='7' fill='%23C75B39'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Design tokens - series palette (meetings 1-2) + journey identity ===== */
+    :root{
+      --cream:#FAF6EE;
+      --cream-2:#F3EBDC;
+      --surface:#FFFFFF;
+      --ink:#1E2B33;
+      --ink-soft:#46565E;
+      --teal:#0F5257;
+      --teal-700:#0A3D41;
+      --teal-50:#E4EFEF;
+      --coral:#C75B39;
+      --coral-700:#A8492C;
+      --coral-50:#FBEFE9;
+      --sand:#E7D8C0;
+      --line:#E7DFD0;
+      --ok:#2E7D46;
+      --ok-50:#EAF4EC;
+      --focus:#B04A00;
+      --radius:18px;
+      --radius-sm:12px;
+      --shadow-sm:0 1px 2px rgba(30,43,51,.06), 0 4px 14px rgba(30,43,51,.05);
+      --shadow-md:0 14px 40px rgba(15,82,87,.14), 0 4px 12px rgba(30,43,51,.08);
+      --font-display:'Frank Ruhl Libre', 'Times New Roman', serif;
+      --font-body:'Assistant', 'Segoe UI', 'Arial Hebrew', Arial, sans-serif;
+      --maxw:1060px;
+    }
+
+    *,*::before,*::after{box-sizing:border-box;}
+    /* Global type scale - enlarged per Tom's request; everything rem-based scales with it */
+    html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; font-size:19px;}
+    @media (max-width:899px){ html{font-size:20px;} }
+    body{
+      margin:0;
+      font-family:var(--font-body);
+      background:
+        radial-gradient(90% 40% at 85% -5%, rgba(15,82,87,.06), transparent 60%),
+        var(--cream);
+      color:var(--ink);
+      line-height:1.7;
+      font-size:1rem;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    h1,h2,h3,h4{line-height:1.25; margin:0; font-family:var(--font-body);}
+    p{margin:0;}
+    button{font-family:inherit; cursor:pointer;}
+    textarea,input,select{font-family:inherit; font-size:1rem; color:var(--ink);}
+    .latin{direction:ltr; unicode-bidi:isolate;}
+
+    /* ===== Accessibility helpers ===== */
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+    .skip-link{
+      position:absolute; top:-100%; right:0;
+      background:var(--teal); color:#fff; padding:.75rem 1.5rem;
+      font-weight:700; z-index:300; text-decoration:none; border-radius:0 0 0 10px;
+    }
+    .skip-link:focus{top:0; outline:3px solid var(--focus); outline-offset:2px;}
+    a:focus-visible, button:focus-visible, [tabindex]:focus-visible,
+    input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible{
+      outline:3px solid var(--focus);
+      outline-offset:3px;
+      border-radius:6px;
+    }
+
+    /* ===== Header ===== */
+    .site-header{
+      background:linear-gradient(180deg,var(--teal) 0%, var(--teal-700) 100%);
+      color:#fff;
+      padding:1.1rem 0 1.2rem;
+    }
+    .site-header .wrap{
+      display:flex; flex-wrap:wrap; align-items:baseline; gap:.35rem .9rem;
+      max-width:var(--maxw); margin-inline:auto; padding-inline:clamp(1rem,4vw,2.2rem);
+    }
+    .site-header .kicker{
+      font-size:.92rem; font-weight:700; letter-spacing:.02em; color:#CDE2E1; margin:0;
+    }
+    .site-header h1{font-size:clamp(1.2rem, 2.6vw, 1.5rem); font-weight:800; color:#fff;}
+
+    /* ===== Layout: journey rail + content ===== */
+    .app{
+      max-width:var(--maxw); margin-inline:auto;
+      padding:clamp(1.1rem,3.5vw,2rem) clamp(1rem,4vw,2.2rem) 4rem;
+      display:grid; grid-template-columns:180px minmax(0,1fr);
+      gap:clamp(1.2rem,3vw,2.4rem);
+      align-items:start;
+    }
+
+    /* --- The signature move: the journey rail (trail of stations) --- */
+    .rail{position:sticky; top:1rem;}
+    .rail ol{
+      list-style:none; margin:0; padding:0;
+      position:relative;
+    }
+    .rail ol::before{
+      content:""; position:absolute; top:22px; bottom:22px; right:21px; width:0;
+      border-right:3px dashed var(--sand);
+    }
+    .rail li{position:relative; margin:0; padding:0 0 1.9rem;}
+    .rail li:last-child{padding-bottom:0;}
+    .station{
+      display:flex; align-items:center; gap:.7rem;
+      background:none; border:0; padding:.15rem; width:100%; text-align:right;
+      color:var(--ink-soft); font-size:1rem; font-weight:600; border-radius:10px;
+    }
+    .station .dot{
+      flex:none; width:44px; height:44px; border-radius:50%;
+      display:grid; place-items:center; font-weight:800; font-size:1.1rem;
+      background:var(--surface); color:var(--teal);
+      border:3px solid var(--sand);
+      position:relative; z-index:1;
+      transition:background .25s, border-color .25s, color .25s;
+    }
+    .station[aria-current="step"]{color:var(--teal-700); font-weight:800;}
+    .station[aria-current="step"] .dot{border-color:var(--coral); color:var(--coral-700); box-shadow:0 0 0 5px var(--coral-50);}
+    .station.done .dot{background:var(--teal); border-color:var(--teal); color:#fff;}
+    .station:not(:disabled):hover .dot{border-color:var(--teal);}
+    .station:disabled{cursor:default; color:#7C8A91;}
+    .station .lbl small{display:block; font-weight:400; font-size:.85rem; color:#6B7A82;}
+
+    /* Mobile stepper - tappable stations (same rules as the rail) */
+    .stepper{display:none;}
+
+    @media (max-width:899px){
+      .app{grid-template-columns:minmax(0,1fr); padding-top:1rem;}
+      .rail{display:none;}
+      .stepper{
+        display:flex; align-items:center; justify-content:center; gap:.3rem;
+        margin:0 0 1.1rem; padding:.5rem .6rem;
+        background:var(--surface); border:1px solid var(--line); border-radius:999px;
+        box-shadow:var(--shadow-sm);
+        position:sticky; top:.5rem; z-index:50;
+      }
+      .stepper .s-dot{
+        width:34px; height:34px; border-radius:50%; flex:none; padding:0;
+        display:grid; place-items:center; font-size:.9rem; font-weight:800;
+        background:var(--cream-2); color:var(--ink-soft); border:2px solid var(--sand);
+      }
+      .stepper .s-dot.done{background:var(--teal); border-color:var(--teal); color:#fff;}
+      .stepper .s-dot.now{border-color:var(--coral); color:var(--coral-700); background:var(--coral-50);}
+      .stepper .s-dot:disabled{opacity:.55; cursor:default;}
+      .stepper .s-line{width:12px; border-top:2px dashed var(--sand); flex:none;}
+      .stepper .s-name{
+        margin-inline-start:.5rem; font-size:1rem; font-weight:700; color:var(--teal-700);
+        white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex-shrink:1;
+      }
+    }
+    @media (max-width:430px){
+      .stepper{gap:.22rem; padding:.45rem .5rem;}
+      .stepper .s-dot{width:30px; height:30px; font-size:.82rem; border-width:2px;}
+      .stepper .s-line{width:7px;}
+      .stepper .s-name{font-size:.9rem; margin-inline-start:.35rem;}
+    }
+
+    /* ===== Screens ===== */
+    .screen{display:none;}
+    .screen.active{display:block; animation:rise .45s ease both;}
+    @keyframes rise{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;}}
+
+    .stage-head{margin-bottom:1.2rem;}
+    .stage-head .eyebrow{
+      display:inline-flex; align-items:center; gap:.5rem;
+      color:var(--coral-700); font-weight:800; font-size:1rem; letter-spacing:.02em;
+    }
+    .stage-head h2{
+      font-family:var(--font-display); font-weight:900;
+      font-size:clamp(1.8rem, 4.8vw, 2.5rem); color:var(--teal-700);
+      margin:.25rem 0 .4rem;
+    }
+    .stage-head .meta-chips{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.35rem; align-items:center;}
+    .chip{
+      display:inline-flex; align-items:center; gap:.35rem;
+      background:var(--teal-50); color:var(--teal-700);
+      border:1px solid #D2E4E3; border-radius:999px;
+      padding:.24rem .85rem; font-size:.98rem; font-weight:700;
+    }
+    .chip.warm{background:var(--coral-50); color:var(--coral-700); border-color:#EFD6CA;}
+    .chip.timechip{font-variant-numeric:tabular-nums;}
+    .chip.timechip.over{background:var(--coral-50); color:var(--coral-700); border-color:#EFD6CA;}
+    .time-nudge{
+      display:none; margin-top:.6rem;
+      background:var(--coral-50); border:1px solid #EFD6CA; border-radius:var(--radius-sm);
+      padding:.55rem .9rem; font-weight:700; color:var(--coral-700); font-size:.98rem;
+    }
+    .time-nudge.show{display:inline-block;}
+
+    .card{
+      background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+      padding:clamp(1.1rem,3vw,1.6rem); margin:1rem 0; box-shadow:var(--shadow-sm);
+    }
+    .card h3{font-size:1.25rem; color:var(--teal-700); margin-bottom:.5rem; font-weight:800;}
+    .card p{margin:.4rem 0;}
+    .card ul, .card ol{margin:.5rem 0; padding-inline-start:1.4rem;}
+    .card li{margin:.45rem 0;}
+    .note{color:var(--ink-soft); font-size:1rem;}
+
+    .callout{
+      border-radius:var(--radius-sm); padding:.9rem 1.1rem; margin:.9rem 0;
+      border-right:5px solid var(--teal); background:var(--teal-50);
+    }
+    .callout.warm{border-right-color:var(--coral); background:var(--coral-50);}
+    .callout.good{border-right-color:var(--ok); background:var(--ok-50);}
+
+    /* Concept reveal */
+    .concept-kicker{
+      text-align:center; font-weight:800; color:var(--ink-soft);
+      font-size:1.15rem; margin:1.2rem 0 -0.4rem;
+    }
+    .concept{
+      text-align:center; padding:clamp(1.6rem,5vw,2.8rem) 1.2rem;
+      background:
+        radial-gradient(70% 90% at 50% 0%, rgba(199,91,57,.07), transparent 70%),
+        var(--surface);
+    }
+    .concept .he{
+      font-family:var(--font-display); font-weight:900; color:var(--teal-700);
+      font-size:clamp(2rem, 6.2vw, 3.1rem); line-height:1.2;
+    }
+    .concept .en{
+      direction:ltr; unicode-bidi:isolate; display:block;
+      font-size:clamp(1.05rem, 3vw, 1.4rem); color:var(--coral-700); font-weight:700;
+      margin-top:.5rem; letter-spacing:.01em;
+    }
+
+    /* Buttons */
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+      min-height:50px; padding:.65rem 1.6rem;
+      border-radius:999px; border:2px solid transparent;
+      font-size:1.1rem; font-weight:800; text-decoration:none;
+      transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn-primary{background:var(--teal); color:#fff;}
+    .btn-primary:hover{background:var(--teal-700); box-shadow:var(--shadow-md);}
+    .btn-secondary{background:var(--surface); color:var(--teal-700); border-color:var(--teal);}
+    .btn-secondary:hover{background:var(--teal-50);}
+    .btn-warm{background:var(--coral); color:#fff;}
+    .btn-warm:hover{background:var(--coral-700);}
+    .btn:disabled{opacity:.45; cursor:not-allowed; box-shadow:none;}
+    .btn-row{display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.1rem; align-items:center;}
+    .btn-back{
+      background:none; border:0; color:var(--ink-soft); font-size:1rem; font-weight:700;
+      text-decoration:underline; text-underline-offset:3px; padding:.4rem .2rem; min-height:44px;
+    }
+    .btn-back:hover{color:var(--teal-700);}
+
+    /* Model links */
+    .model-links{display:flex; flex-wrap:wrap; gap:.6rem; margin:.6rem 0 .2rem;}
+    .model-links a{
+      display:inline-flex; align-items:center; min-height:46px; padding:.35rem 1.1rem;
+      background:var(--surface); border:2px solid var(--teal); border-radius:999px;
+      color:var(--teal-700); font-weight:800; text-decoration:none; font-size:1.05rem;
+    }
+    .model-links a:hover{background:var(--teal-50);}
+
+    /* Prompt cards - editable prompts (training wheels, not a must) */
+    .prompt-card{border-right:5px solid var(--coral);}
+    .prompt-card .p-head{display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; justify-content:space-between;}
+    .prompt-card h4{font-size:1.12rem; color:var(--coral-700); font-weight:800;}
+    textarea.prompt-text{
+      width:100%; margin:.7rem 0 0; padding:.9rem 1rem;
+      background:var(--cream); border:1px dashed var(--sand); border-radius:var(--radius-sm);
+      font-family:var(--font-body); font-size:1.02rem; color:var(--ink);
+      line-height:1.6; resize:vertical; min-height:7.5em;
+    }
+    textarea.prompt-text:focus{border-style:solid; border-color:var(--teal);}
+    .p-actions{display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin-top:.55rem;}
+    .p-reset{
+      background:none; border:0; color:var(--ink-soft); font-size:.92rem; font-weight:700;
+      text-decoration:underline; text-underline-offset:3px; padding:.3rem .2rem; min-height:44px;
+    }
+    .p-reset:hover{color:var(--coral-700);}
+    .copy-btn{
+      display:inline-flex; align-items:center; gap:.4rem;
+      min-height:46px; padding:.4rem 1.15rem;
+      background:var(--teal); color:#fff; border:0; border-radius:999px;
+      font-size:1rem; font-weight:800;
+    }
+    .copy-btn:hover{background:var(--teal-700);}
+    .copy-btn.copied{background:var(--ok);}
+
+    /* Form elements */
+    label{font-weight:700; color:var(--teal-700); display:block; margin-bottom:.35rem;}
+    .field{margin:1rem 0;}
+    input[type="text"], textarea, select{
+      width:100%; padding:.7rem .9rem;
+      border:2px solid var(--sand); border-radius:var(--radius-sm);
+      background:var(--surface);
+    }
+    input[type="text"]:focus, textarea:focus, select:focus{border-color:var(--teal);}
+    textarea{min-height:130px; resize:vertical; line-height:1.65;}
+    .hint{font-size:.95rem; color:var(--ink-soft); margin-top:.3rem;}
+    .wc{
+      display:inline-block; margin-top:.35rem; font-size:.95rem; font-weight:700;
+      color:var(--ink-soft); font-variant-numeric:tabular-nums;
+    }
+    .wc.met{color:var(--ok);}
+
+    /* Choice checkboxes (discussion questions) */
+    .q-list{list-style:none; margin:.8rem 0 0; padding:0;}
+    .q-list li{margin:.55rem 0;}
+    .q-check{
+      display:flex; gap:.7rem; align-items:flex-start;
+      background:var(--surface); border:2px solid var(--line); border-radius:var(--radius-sm);
+      padding:.75rem .9rem; cursor:pointer; transition:border-color .15s, background .15s;
+    }
+    .q-check:hover{border-color:var(--teal);}
+    .q-check input{
+      flex:none; width:26px; height:26px; margin-top:.15rem; accent-color:var(--teal); cursor:pointer;
+    }
+    .q-check.checked{border-color:var(--teal); background:var(--teal-50);}
+    .must{
+      border-right:5px solid var(--coral);
+    }
+    .must .must-tag{
+      display:inline-block; background:var(--coral); color:#fff; border-radius:999px;
+      font-size:.85rem; font-weight:800; padding:.1rem .7rem; margin-bottom:.4rem;
+    }
+    .must p.q{font-size:1.22rem; font-weight:800; color:var(--teal-700);}
+
+    /* Scenario cards */
+    .scenario-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:.9rem; margin-top:1rem;}
+    .scenario-pick{
+      text-align:right; background:var(--surface); border:2px solid var(--line);
+      border-radius:var(--radius); padding:1.1rem 1.15rem; min-height:44px;
+      display:flex; flex-direction:column; gap:.4rem;
+      transition:border-color .15s, box-shadow .2s;
+    }
+    .scenario-pick:hover{border-color:var(--coral); box-shadow:var(--shadow-md);}
+    .scenario-pick .s-tag, .s-tag{
+      align-self:flex-start; display:inline-block;
+      background:var(--coral-50); color:var(--coral-700); border:1px solid #EFD6CA;
+      border-radius:999px; padding:.1rem .7rem; font-size:.9rem; font-weight:800;
+    }
+    .scenario-pick .s-title{font-weight:800; color:var(--teal-700); font-size:1.14rem;}
+    .scenario-pick .s-teaser{font-size:.98rem; color:var(--ink-soft);}
+
+    .keyq{
+      background:var(--coral-50); border:1px solid #EFD6CA; border-radius:var(--radius-sm);
+      padding:.9rem 1.1rem; margin:.9rem 0; font-weight:700; color:var(--ink);
+    }
+    .keyq .kq-tag{color:var(--coral-700); font-weight:800; display:block; margin-bottom:.2rem; font-size:.95rem;}
+
+    /* Format chips */
+    .fmt-grid{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.6rem;}
+    .fmt{
+      border:2px solid var(--sand); background:var(--surface); border-radius:999px;
+      padding:.45rem 1rem; min-height:46px; font-size:1.02rem; font-weight:700; color:var(--ink);
+    }
+    .fmt:hover{border-color:var(--teal);}
+    .fmt[aria-pressed="true"]{background:var(--teal); border-color:var(--teal); color:#fff;}
+
+    /* Product components checklist */
+    .comp-list{counter-reset:comp; list-style:none; margin:.8rem 0 0; padding:0;}
+    .comp-list li{margin:.5rem 0;}
+    .comp{
+      display:flex; gap:.7rem; align-items:flex-start;
+      background:var(--surface); border:2px solid var(--line); border-radius:var(--radius-sm);
+      padding:.65rem .85rem; cursor:pointer;
+    }
+    .comp input{flex:none; width:26px; height:26px; margin-top:.1rem; accent-color:var(--ok); cursor:pointer;}
+    .comp.checked{border-color:var(--ok); background:var(--ok-50);}
+
+    /* Status line under submit buttons */
+    .status{margin-top:.7rem; font-weight:700; display:none;}
+    .status.show{display:block;}
+    .status.err{color:#9E2B12;}
+    .status.ok{color:var(--ok);}
+
+    /* Sent confirmation */
+    .sent-box{
+      display:flex; align-items:center; gap:.7rem;
+      background:var(--ok-50); border:1px solid #CBE3D1; border-radius:var(--radius-sm);
+      padding:.8rem 1rem; margin-top:.8rem; font-weight:700; color:var(--ok);
+    }
+
+    /* Rubric dialog */
+    dialog{
+      border:0; border-radius:var(--radius); padding:0;
+      width:min(94vw, 860px); box-shadow:var(--shadow-md);
+    }
+    dialog::backdrop{background:rgba(30,43,51,.55);}
+    .dlg-head{
+      display:flex; justify-content:space-between; align-items:center; gap:1rem;
+      background:var(--teal); color:#fff; padding:1rem 1.3rem;
+    }
+    .dlg-head h3{font-size:1.2rem; color:#fff;}
+    .dlg-close{
+      background:rgba(255,255,255,.15); color:#fff; border:0; border-radius:999px;
+      width:46px; height:46px; font-size:1.3rem; font-weight:800;
+    }
+    .dlg-close:hover{background:rgba(255,255,255,.3);}
+    .dlg-body{padding:1.1rem 1.3rem 1.4rem; background:var(--surface);}
+    .table-scroll-wrapper{
+      width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; margin:.6rem 0 0; border-radius:8px;
+    }
+    table.rubric{width:100%; border-collapse:collapse; font-size:1rem; min-width:560px;}
+    table.rubric th, table.rubric td{border:1px solid var(--line); padding:.6rem .7rem; text-align:right; vertical-align:top;}
+    table.rubric th{background:var(--teal-50); color:var(--teal-700);}
+    table.rubric td:first-child{font-weight:800; color:var(--coral-700); white-space:nowrap;}
+
+    /* Footer */
+    .site-footer{
+      border-top:1px solid var(--line); margin-top:2rem;
+      padding:1.4rem clamp(1rem,4vw,2.2rem) 2.2rem;
+      max-width:var(--maxw); margin-inline:auto;
+      color:var(--ink-soft); font-size:.95rem;
+      display:flex; flex-wrap:wrap; gap:.7rem 1.6rem; align-items:center; justify-content:space-between;
+    }
+    .site-footer a{color:var(--teal-700); font-weight:700;}
+    .reset-btn{
+      background:none; border:0; color:#7C8A91; font-size:.9rem; text-decoration:underline;
+      text-underline-offset:3px; padding:.5rem .2rem; min-height:44px;
+    }
+    .reset-btn:hover{color:var(--coral-700);}
+
+    /* Thanks screen */
+    .thanks{
+      text-align:center; padding:clamp(1.8rem,6vw,3rem) 1.4rem;
+    }
+    .thanks .big{font-size:clamp(2.4rem,8vw,3.6rem); line-height:1;}
+    .thanks h2{
+      font-family:var(--font-display); font-weight:900; color:var(--teal-700);
+      font-size:clamp(1.7rem,5vw,2.4rem); margin:.6rem 0;
+    }
+    .thanks .btn-row{justify-content:center;}
+    .quote{
+      max-width:640px; margin:1.2rem auto 0; text-align:right;
+      background:var(--cream); border-right:5px solid var(--coral);
+      border-radius:var(--radius-sm); padding:1rem 1.2rem; font-size:1.05rem;
+    }
+    .quote .who{display:block; margin-top:.5rem; color:var(--ink-soft); font-size:.95rem; font-weight:700;}
+
+    /* Reduced motion must win over every animation - accessibility requirement */
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{
+        animation-duration:0.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:0.01ms !important;
+        scroll-behavior:auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <h1>מסע למידה: מודל SAMR</h1>
+    <p class="kicker">מפגש 2 · צוות פיתוח AI בחינוך המיוחד · מכללת בית ברל</p>
+  </div>
+</header>
+
+<div class="app">
+
+  <!-- Journey rail (desktop) -->
+  <nav class="rail" aria-label="שלבי המסע - אפשר לחזור לתחנה שכבר ביקרתן בה">
+    <ol id="rail-list">
+      <li><button class="station" data-go="0"><span class="dot" aria-hidden="true">🚩</span><span class="lbl">פתיחה<small>נקודת הזינוק</small></span></button></li>
+      <li><button class="station" data-go="1"><span class="dot" aria-hidden="true">1</span><span class="lbl">היכרות עם המודל<small>שיחה אישית עם הבינה</small></span></button></li>
+      <li><button class="station" data-go="2"><span class="dot" aria-hidden="true">2</span><span class="lbl">שיחה בזוגות<small>שיעורי הבית והסולם</small></span></button></li>
+      <li><button class="station" data-go="3"><span class="dot" aria-hidden="true">3</span><span class="lbl">תוצר אישי<small>השיעור שלי, משודרג</small></span></button></li>
+      <li><button class="station" data-go="4"><span class="dot" aria-hidden="true">4</span><span class="lbl">רפלקציית מראה<small>המפגש הזה עצמו</small></span></button></li>
+      <li><button class="station" data-go="5"><span class="dot" aria-hidden="true">🏁</span><span class="lbl">סיום<small>נתראה בדיון</small></span></button></li>
+    </ol>
+  </nav>
+
+  <div>
+    <!-- Mobile stepper (tappable) -->
+    <nav class="stepper" id="stepper" aria-label="שלבי המסע - אפשר לחזור לתחנה שכבר ביקרתן בה"></nav>
+
+    <main id="main-content">
+
+      <!-- ============ Screen 0: Welcome ============ -->
+      <section class="screen" id="screen-0" aria-labelledby="h-s0">
+        <div class="stage-head">
+          <span class="eyebrow">🚩 נקודת הזינוק</span>
+          <h2 id="h-s0" tabindex="-1">היום לומדים אחרת</h2>
+        </div>
+
+        <div class="card">
+          <p>ברוכות הבאות וברוכים הבאים!</p>
+          <p>
+            האפליקציה הזו תוביל אתכן, תחנה אחר תחנה, במסע למידה שבו הבינה המלאכותית
+            אינה מקצרת דרך ואינה כותבת במקומכן - היום היא המורה הפרטית שלכן.
+            תלמדו ממנה מודל פדגוגי, תשוחחו עליו בזוגות, ותצאו עם שדרוג אמיתי לשיעור שלכן.
+          </p>
+          <ul>
+            <li><strong>בתחנה הראשונה עובדים לבד</strong> - כל אחת בקצב שלה, בשיחה אישית עם הבינה.</li>
+            <li>בהמשך: שיחה בזוגות על שיעורי הבית, תוצר אישי מהשיעור שלכן, ורפלקציה קטנה ומפתיעה.</li>
+            <li>ההנחיות המלאות מופיעות בכל תחנה - אין צורך לשאול, רק להתקדם.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="field">
+            <label for="name-input">איך קוראים לך? (שם פרטי ושם משפחה)</label>
+            <input type="text" id="name-input" autocomplete="name" maxlength="80"
+                   placeholder="השם יצורף לתוצרים שתשלחי למרצה">
+            <p class="hint">השם מלווה את ההגשות שלך ואת תמונת ההתקדמות שהמרצה רואה.</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="start-btn">יוצאים לדרך ←</button>
+          </div>
+          <p class="status err" id="name-status" role="alert"></p>
+        </div>
+      </section>
+
+      <!-- ============ Screen 1: Meet the model (guided AI dialogue) ============ -->
+      <section class="screen" id="screen-1" aria-labelledby="h-s1">
+        <div class="stage-head">
+          <span class="eyebrow">תחנה 1 · עבודה אישית עם הבינה</span>
+          <h2 id="h-s1" tabindex="-1">היכרות עם המודל</h2>
+          <div class="meta-chips">
+            <span class="chip warm">🧍 עבודה אישית</span>
+            <span class="chip">מומלץ: כ־15 דקות</span>
+            <span class="chip timechip" data-timechip="1" hidden>⏱ 0:00</span>
+          </div>
+          <span class="time-nudge" data-nudge="1">⏰ עברתן את הזמן המומלץ - כדאי לסגור את התחנה ולהתקדם 🙂</span>
+        </div>
+
+        <p class="concept-kicker">הנושא שנלמד היום הוא:</p>
+        <div class="card concept">
+          <p class="he">מודל SAMR</p>
+          <span class="en">Substitution · Augmentation · Modification · Redefinition</span>
+        </div>
+
+        <div class="callout warm">
+          <strong>שימי לב:</strong> בכוונה לא מצורף כאן שום הסבר על המודל.
+          את הידע תבני בעצמך, בשיחה אישית עם הבינה - היא המורה הפרטית שלך לתחנה הזו,
+          וזו בדיוק הנקודה של המפגש.
+        </div>
+
+        <div class="card">
+          <h3>1. פתחי את Gemini בחלון חדש</h3>
+          <div class="model-links">
+            <a href="https://gemini.google.com" target="_blank" rel="noopener">פתיחת Gemini ↗</a>
+          </div>
+          <p class="note">
+            צריך להיות מחוברות לחשבון גוגל. אם נוח לך יותר כלי אחר שאת רגילה אליו -
+            הפרומפט שלמטה עובד מצוין גם שם.
+          </p>
+          <div class="callout">
+            <strong>הפרומפט שלמטה הוא הזמנה לשיחה - לא טופס.</strong>
+            אפשר לערוך אותו לפני ההעתקה, ואפשר להשתמש בו כמו שהוא.
+            אחרי ההדבקה - פשוט זרמי עם השיחה: עני, שאלי, בקשי עוד דוגמאות.
+            העיקר: שיחה שבונה לך הבנה.
+          </div>
+        </div>
+
+        <div class="card prompt-card">
+          <div class="p-head">
+            <h4>2. העתיקי את הפרומפט והדביקי בשיחה</h4>
+          </div>
+          <textarea class="prompt-text" id="p1" rows="10" aria-label="פרומפט: שיחת היכרות עם המודל - ניתן לעריכה">אני מרצה בהכשרת מורים לחינוך מיוחד, ואני רוצה ללמוד ממך את מודל SAMR לשילוב טכנולוגיה ובינה מלאכותית בהוראה - בשיחה אישית, לא בהרצאה.
+כך נעבוד:
+1. קודם שאלי אותי שאלה קצרה אחת על תחום ההוראה שלי ועל הסטודנטיות שלי, כדי שתוכלי להתאים לי דוגמאות.
+2. אחר כך הציגי את ארבע המדרגות של המודל - החלפה, העצמה, שינוי, הגדרה מחדש - מדרגה אחת בכל פעם, עם דוגמה מהעולם שלי בכל מדרגה. אחרי כל מדרגה עצרי ובדקי איתי שהבנתי, לפני שממשיכים.
+3. לסיום תני לי שתי דוגמאות קצרות של שילוב בינה מלאכותית בהוראה, ובקשי ממני למקם כל אחת על הסולם. תני לי משוב עדין.
+דברי בעברית פשוטה וחמה. שיחה - לא הרצאה.</textarea>
+          <div class="p-actions">
+            <button class="copy-btn" data-copy="p1">📋 העתקת הפרומפט</button>
+            <button class="p-reset" data-reset="p1">שחזור הנוסח המקורי</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>3. עצרי רגע - עיבוד אישי</h3>
+          <p class="note">
+            החלק הזה נשלח למרצה בלחיצה על ״ממשיכות״ - הוא חלק מתהליך הלמידה של המפגש.
+          </p>
+          <div class="field">
+            <label for="understood">מה הבנתי על המודל, במילים שלי?</label>
+            <textarea id="understood" maxlength="20000" placeholder="נסחי במילים שלך: מה ההבדל בין המדרגות? מה הפתיע אותך?"></textarea>
+            <span class="wc" id="wc-understood" aria-live="polite">מילים: 0 · מומלץ: לפחות 60</span>
+          </div>
+          <div class="field">
+            <label for="unclear">מה עדיין מסקרן או לא ברור לי?</label>
+            <textarea id="unclear" maxlength="20000" placeholder="שאלות פתוחות, נקודות מעורפלות, השגות..."></textarea>
+            <span class="wc" id="wc-unclear" aria-live="polite">מילים: 0 · מומלץ: לפחות 25</span>
+          </div>
+          <p class="hint">המונים הם המלצה בלבד - אפשר להמשיך בכל שלב.</p>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="to-pairs">סיימת את השיחה עם הבינה? לתחנה 2 ←</button>
+            <button class="btn-back" data-go="0">→ חזרה לפתיחה</button>
+          </div>
+          <p class="status" id="reflection-status" role="alert"></p>
+        </div>
+      </section>
+
+      <!-- ============ Screen 2: Pair talk (homework reflections) ============ -->
+      <section class="screen" id="screen-2" aria-labelledby="h-s2">
+        <div class="stage-head">
+          <span class="eyebrow">תחנה 2 · שיחה בזוגות</span>
+          <h2 id="h-s2" tabindex="-1">שיחה בזוגות (או בשלישייה)</h2>
+          <div class="meta-chips">
+            <span class="chip warm">👥 בזוגות</span>
+            <span class="chip">מומלץ: כ־12 דקות</span>
+            <span class="chip timechip" data-timechip="2" hidden>⏱ 0:00</span>
+          </div>
+          <span class="time-nudge" data-nudge="2">⏰ עברתן את הזמן המומלץ - כדאי לסגור את התחנה ולהתקדם 🙂</span>
+        </div>
+
+        <!-- Gate -->
+        <div id="pair-gate">
+          <div class="card">
+            <h3>לפני שממשיכים - מוצאים בת זוג</h3>
+            <p>
+              מצאו בת או בן זוג לשיחה, ותפסו לכן פינה נוחה בחדר -
+              אפשר ומומלץ לצאת לפינה שקטה מחוץ למעבדה.
+            </p>
+            <div class="callout warm">
+              <strong>שלישייה אחת בלבד בכל החדר.</strong>
+              שלישייה מאריכה משמעותית את זמן הדיון - והזמן קצר.
+              עובדים בזוגות, ולכל היותר שלישייה אחת אם המספר אינו זוגי.
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" id="pair-2">מצאתי בת זוג (או שלישייה) ✓</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn-back" data-go="1">→ חזרה לתחנה 1</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Discussion -->
+        <div id="pair-talk" hidden>
+          <div class="callout">
+            <strong>איך משוחחים?</strong>
+            בשיעורי הבית ממפגש 1 כל אחת נזכרה במרצה או בקורס שעוררו בה השראה.
+            עכשיו הסיפורים האלה פוגשים את הסולם שלמדתן הרגע:
+            הראשונה מספרת, השנייה (והשלישית, אם אתן שלישייה) מקשיבה - ואז מתחלפות.
+            רק אחרי שני הסיפורים עוברים לשאלות.
+          </div>
+
+          <div class="card must">
+            <span class="must-tag">שאלת חובה</span>
+            <p class="q">ספרי על המרצה או הקורס מעוררי ההשראה שנזכרת בהם בשיעורי הבית - מה קרה שם בעצם?</p>
+            <p class="note">כל אחת מספרת את הסיפור שלה - לפני שמנתחים, פשוט מספרים.</p>
+          </div>
+
+          <div class="card">
+            <h3>ובוחרות יחד עוד שלוש שאלות לפחות</h3>
+            <p class="note">
+              לנוחותכן: אפשר לסמן מראש שאלות שמעניין אתכן לשוחח עליהן (כל אחת מציעה אחת-שתיים),
+              ואז לפתוח את הדיון. בסופו ודאו שמסומנות השאלות שעליהן <strong>שוחחתן בפועל</strong> -
+              לפחות שלוש כדי להתקדם.
+            </p>
+            <ul class="q-list" id="q-list">
+              <li><label class="q-check"><input type="checkbox" data-q="0"><span>אילו מרכיבים פדגוגיים חוזרים בשני הסיפורים שלכן? נסחו יחד שניים-שלושה.</span></label></li>
+              <li><label class="q-check"><input type="checkbox" data-q="1"><span>האם שיחקה שם טכנולוגיה תפקיד? אם כן - על איזו מדרגה בסולם הייתן ממקמות אותה?</span></label></li>
+              <li><label class="q-check"><input type="checkbox" data-q="2"><span>אם לא הייתה שם טכנולוגיה - האם היא הייתה יכולה להעצים את החוויה ההיא, או דווקא לקלקל אותה?</span></label></li>
+              <li><label class="q-check"><input type="checkbox" data-q="3"><span>מה מהחוויה ההיא נמצא היום בהוראה שלך - ומה נשאר בחוץ? למה?</span></label></li>
+              <li><label class="q-check"><input type="checkbox" data-q="4"><span>מה מעורר השראה בסטודנטיות שלכן היום? במה זה דומה או שונה ממה שעורר השראה בכן?</span></label></li>
+              <li><label class="q-check"><input type="checkbox" data-q="5"><span>בחרו שיעור אחד של אחת מכן: מה היה הופך אותו לחוויה שסטודנטית תזכור עוד עשור?</span></label></li>
+              <li><label class="q-check"><input type="checkbox" data-q="6"><span>איפה בינה מלאכותית יכולה לשרת את מה שזיהיתן כמעורר השראה - ואיפה היא עלולה לפגוע בו?</span></label></li>
+            </ul>
+            <p class="hint" id="q-counter" aria-live="polite">נבחרו 0 שאלות (צריך לפחות 3)</p>
+          </div>
+
+          <div class="card">
+            <h3>לסיום השיחה - תובנה משותפת אחת</h3>
+            <div class="field">
+              <label for="insight">מה התובנה המרכזית שלכן מהשיחה? (משפט או שניים)</label>
+              <textarea id="insight" maxlength="4000" placeholder="משהו שהתחדד לכן יחד - על השראה, על טכנולוגיה, על ההוראה שלכן..."></textarea>
+              <span class="wc" id="wc-insight" aria-live="polite">מילים: 0 · מומלץ: לפחות 10</span>
+              <p class="hint">התובנה נשלחת למרצה בשם שתיכן, וממשיכים אוטומטית לתחנה הבאה.</p>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-warm" id="send-insight" disabled>שליחת התובנה והמשך ←</button>
+              <button class="btn-back" data-go="1">→ חזרה לתחנה 1</button>
+            </div>
+            <p class="status" id="insight-status" role="alert"></p>
+            <div class="btn-row" id="insight-fallback" hidden>
+              <button class="btn btn-secondary" data-go-next="3">ממשיכות בכל זאת (בלי שליחה) ←</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Screen 3: Personal product (my lesson, upgraded) ============ -->
+      <section class="screen" id="screen-3" aria-labelledby="h-s3">
+        <div class="stage-head">
+          <span class="eyebrow">תחנה 3 · עבודה אישית</span>
+          <h2 id="h-s3" tabindex="-1">התוצר האישי שלך: השיעור שלי, משודרג</h2>
+          <div class="meta-chips">
+            <span class="chip warm">🧍 עבודה אישית</span>
+            <span class="chip">מומלץ: כ־25 דקות</span>
+            <span class="chip timechip" data-timechip="3" hidden>⏱ 0:00</span>
+          </div>
+          <span class="time-nudge" data-nudge="3">⏰ עברתן את הזמן המומלץ - כדאי לסגור את התחנה ולהתקדם 🙂</span>
+        </div>
+
+        <div class="callout good">
+          <strong>תודו לבת הזוג (או לשלישייה) 🙏 - מכאן ממשיכים לבד.</strong>
+        </div>
+
+        <div class="callout">
+          עכשיו נבדוק אם המודל יכול לשמש <strong>ככלי עבודה אמיתי</strong>:
+          לוקחות שיעור אחד שלך, מבקשות מהבינה ניתוח לפי הסולם -
+          ויוצאות מהתחנה עם הצעת שדרוג קונקרטית של מדרגה אחת למעלה.
+        </div>
+
+        <div class="card">
+          <h3>1. תארי שיעור שאת מעבירה</h3>
+          <div class="field">
+            <label for="lesson">תיאור חופשי בכמה משפטים: מה הנושא, מה הסטודנטיות עושות בו, איך הוא בנוי?</label>
+            <textarea id="lesson" maxlength="8000" rows="5" placeholder="לדוגמה: שיעור על הפרעות קשב, מתחיל בהרצאה קצרה, אחר כך ניתוח מקרה בקבוצות ודיון..."></textarea>
+            <span class="wc" id="wc-lesson" aria-live="polite">מילים: 0 · מומלץ: לפחות 30</span>
+            <p class="hint">התיאור נכנס אוטומטית לפרומפט שלמטה - את רואה אותו מתעדכן תוך כדי כתיבה.</p>
+          </div>
+        </div>
+
+        <div class="card prompt-card">
+          <div class="p-head">
+            <h4>2. העתיקי את הפרומפט (הוא כבר כולל את השיעור שלך) והדביקי בשיחה עם הבינה</h4>
+          </div>
+          <textarea class="prompt-text" id="pb" rows="12" aria-label="פרומפט: ניתוח ושדרוג השיעור - ניתן לעריכה"></textarea>
+          <div class="p-actions">
+            <button class="copy-btn" data-copy="pb">📋 העתקת הפרומפט</button>
+            <button class="p-reset" id="pb-refresh">רענון מתוך התיאור שכתבתי</button>
+          </div>
+          <div class="model-links">
+            <a href="https://gemini.google.com" target="_blank" rel="noopener">פתיחת Gemini ↗</a>
+          </div>
+          <p class="note">אפשר להמשיך באותה שיחה מתחנה 1 - הבינה כבר מכירה אותך.</p>
+        </div>
+
+        <div class="card">
+          <h3>3. על איזו מדרגה נמצא השיעור שלך היום, לדעתך?</h3>
+          <p class="note">סמני את הערכתך שלך - גם אם הבינה חשבה אחרת. אפשר להציץ בסולם דרך הכפתור למטה.</p>
+          <div class="fmt-grid" id="rung-grid" role="group" aria-label="בחירת המדרגה הנוכחית של השיעור"></div>
+          <div class="btn-row">
+            <button class="btn btn-secondary open-rubric">🪜 תזכורת: סולם המדרגות</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>4. ההגשה: השדרוג שלך</h3>
+          <div class="field">
+            <label for="p-name">שם</label>
+            <input type="text" id="p-name" maxlength="80" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="upgrade">תמצית השדרוג שקיבלת מהבינה - בעריכה שלך</label>
+            <textarea id="upgrade" maxlength="8000" rows="7" placeholder="מה ההצעה שבחרת? אפשר להעתיק מהשיחה, לקצר ולנסח במילים שלך - העיקר שתוכלי ליישם אותה..."></textarea>
+            <span class="wc" id="wc-upgrade" aria-live="polite">מילים: 0 · מומלץ: לפחות 25</span>
+            <p class="hint">התוצר נשלח למרצה ונאסף לאורך המפגשים - הוא נקודת הפתיחה של השיחה המסכמת.</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-warm" id="send-product">📤 שליחת התוצר למרצה והמשך ←</button>
+            <button class="btn-back" data-go="2">→ חזרה לשיחה בזוגות</button>
+          </div>
+          <p class="status" id="product-status" role="alert"></p>
+          <div class="sent-box" id="product-sent" hidden>✓ התוצר נשלח למרצה. אפשר לשלוח שוב גרסה מעודכנת אם תרצי.</div>
+          <div class="btn-row" id="product-fallback" hidden>
+            <button class="btn btn-secondary" data-go-next="4">ממשיכות בכל זאת (בלי שליחה) ←</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Screen 4: Mirror reflection ============ -->
+      <section class="screen" id="screen-4" aria-labelledby="h-s4">
+        <div class="stage-head">
+          <span class="eyebrow">תחנה 4 · רגע אחד לפני הסיום</span>
+          <h2 id="h-s4" tabindex="-1">רפלקציית מראה</h2>
+          <div class="meta-chips">
+            <span class="chip warm">🧍 עבודה אישית</span>
+            <span class="chip">מומלץ: כ־6 דקות</span>
+            <span class="chip timechip" data-timechip="4" hidden>⏱ 0:00</span>
+          </div>
+          <span class="time-nudge" data-nudge="4">⏰ עברתן את הזמן המומלץ - כדאי לסגור את התחנה ולהתקדם 🙂</span>
+        </div>
+
+        <div class="card">
+          <h3>הביטי במראה 🪞</h3>
+          <p>
+            עצרי רגע והביטי אחורה על המפגש הזה עצמו, מהרגע שהזנת את שמך ועד עכשיו:
+            מורה פרטית מבוססת בינה שלימדה אותך מודל בדיאלוג,
+            מסע תחנות שכל אחת עוברת בקצב שלה,
+            ותוצרים שנאספים אל המרצה בזמן אמת תוך כדי המפגש.
+          </p>
+          <div class="callout warm">
+            <strong>אם המפגש הזה היה ״שיעור״ - על איזו מדרגה בסולם היית ממקמת אותו, ולמה?</strong>
+          </div>
+          <p class="note">אין תשובה נכונה. הביטי בסולם, בחרי מדרגה - ונמקי בקצרה. התשובות שלכן יפתחו את הדיון המסכם.</p>
+          <div class="fmt-grid" id="rung-grid-mirror" role="group" aria-label="בחירת מדרגה למפגש הזה עצמו"></div>
+          <div class="btn-row">
+            <button class="btn btn-secondary open-rubric">🪜 תזכורת: סולם המדרגות</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>הנימוק שלך</h3>
+          <div class="field">
+            <label for="mirror">למה דווקא המדרגה הזו? (משפט או שניים)</label>
+            <textarea id="mirror" maxlength="2000" rows="4" placeholder="מה במפגש הזה אפשר את מה שבחרת - ומה היה קורה בלעדיו?"></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-warm" id="send-mirror">שליחה למרצה וסיום המסע ←</button>
+            <button class="btn-back" data-go="3">→ חזרה לתוצר האישי</button>
+          </div>
+          <p class="status" id="mirror-status" role="alert"></p>
+          <div class="btn-row" id="mirror-fallback" hidden>
+            <button class="btn btn-secondary" data-go-next="5">ממשיכות בכל זאת (בלי שליחה) ←</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Screen 5: Thanks ============ -->
+      <section class="screen" id="screen-5" aria-labelledby="h-s5">
+        <div class="card thanks">
+          <p class="big" aria-hidden="true">🏁</p>
+          <h2 id="h-s5" tabindex="-1">הגעת לסוף המסע - כל הכבוד!</h2>
+          <p>השדרוג שלך אצל המרצה. עוד מעט ניפגש כולן לדיון המסכם: מה קרה כאן בעצם, מבחינה פדגוגית?</p>
+          <blockquote class="quote">
+            ״השאלה החשובה אינה ׳איזו טכנולוגיה להכניס לשיעור?׳
+            אלא ׳איזו למידה הטכנולוגיה הזאת מאפשרת - שלא הייתה אפשרית קודם?׳
+            לפעמים התשובה היא מדרגה אחת בלבד למעלה,
+            וזה בדיוק המקום שממנו מתחילים.״
+            <span class="who">- רוח המפגש</span>
+          </blockquote>
+          <div class="btn-row">
+            <button class="btn btn-secondary" data-go="3">→ חזרה לתוצר (לשליחת גרסה מעודכנת)</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span>
+    נבנה בשיטת וייב קודינג עבור מפגש 2 · צוות פיתוח AI בחינוך המיוחד, מכללת בית ברל ·
+    <a href="accessibility.html">הצהרת נגישות</a>
+  </span>
+  <button class="reset-btn" id="reset-btn">התחלה מחדש (איפוס ההתקדמות שלי)</button>
+</footer>
+
+<!-- SAMR ladder reference dialog -->
+<dialog id="rubric-dialog" aria-labelledby="rubric-title">
+  <div class="dlg-head">
+    <h3 id="rubric-title">סולם SAMR - תזכורת מהירה</h3>
+    <button class="dlg-close" id="rubric-close" aria-label="סגירת התזכורת">✕</button>
+  </div>
+  <div class="dlg-body">
+    <p class="note">שתי המדרגות הראשונות משפרות את הקיים; שתי העליונות משנות את הלמידה עצמה.</p>
+    <div class="table-scroll-wrapper" tabindex="0" role="region" aria-label="טבלת סולם המדרגות (ניתנת לגלילה)">
+      <table class="rubric">
+        <thead>
+          <tr><th scope="col">מדרגה</th><th scope="col">מה קורה שם?</th><th scope="col">דוגמה</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>הגדרה מחדש<br><span dir="ltr">Redefinition</span></td><td>משימה חדשה שלא הייתה אפשרית קודם בכלל</td><td>לכל סטודנטית מורה פרטית מבוססת בינה, שמלווה אותה בקצב שלה לאורך הקורס</td></tr>
+          <tr><td>שינוי<br><span dir="ltr">Modification</span></td><td>המשימה עצמה מעוצבת מחדש באופן משמעותי</td><td>במקום תרגיל מסכם - הסטודנטיות כותבות יחד במסמך חי ומקבלות משוב מיידי מהבינה ומהמרצה</td></tr>
+          <tr><td>העצמה<br><span dir="ltr">Augmentation</span></td><td>אותה משימה, עם שיפור תפקודי אמיתי</td><td>בוחן דיגיטלי שנותן משוב מיידי במקום דף שנבדק אחרי שבוע</td></tr>
+          <tr><td>החלפה<br><span dir="ltr">Substitution</span></td><td>הטכנולוגיה מחליפה כלי ישן, בלי שינוי מהותי</td><td>מצגת במקום לוח, קובץ במקום דף מודפס</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">ולפני כל אלה יש כמובן גם ״עדיין בלי טכנולוגיה״ - וזה בסדר גמור: הסולם הוא מצפן, לא מבחן.</p>
+  </div>
+</dialog>
+
+<noscript>
+  <div class="card" role="alert">
+    האפליקציה דורשת הפעלת JavaScript בדפדפן. אנא הפעילו אותו ורעננו את הדף.
+  </div>
+</noscript>
+
+<script>
+/* ================= App state & flow ================= */
+(function(){
+  'use strict';
+
+  var KEY = 'samr-journey-v1';
+  var RUNGS = ['עדיין בלי טכנולוגיה','החלפה','העצמה','שינוי','הגדרה מחדש'];
+  var RECOMMENDED_MIN = {1:15, 2:12, 3:25, 4:6};
+
+  /* prompt-builder for station 3: the lesson description is embedded live */
+  var PB_HEAD = 'הנה תיאור של שיעור או מפגש שאני מעבירה בהכשרת מורים לחינוך מיוחד:\n---\n';
+  var PB_TAIL = '\n---\nבבקשה:\n1. נתחי את השיעור לפי מודל SAMR: על איזו מדרגה הוא נמצא היום (החלפה / העצמה / שינוי / הגדרה מחדש - או שהוא עדיין בלי טכנולוגיה בכלל), והסבירי בקצרה למה.\n2. הציעי שדרוג של מדרגה אחת בלבד למעלה - הצעה מעשית וישימה לשיעור שלי, שמתאימה להכשרת מורים לחינוך מיוחד, בלי להעמיס טכנולוגיה מיותרת. אם יש לך שני רעיונות - הציגי את שניהם ותני לי לבחור.\n3. סיימי בטיפ קטן אחד ליישום כבר בשיעור הקרוב.\nדברי בעברית פשוטה. אחרי ההצעה, שאלי אותי אם ארצה לחדד אותה יחד.';
+
+  var defaults = {
+    pid:'', name:'', stage:0, maxStage:0, pair:null, qs:[],
+    understood:'', unclear:'',
+    insight:'', insightSent:false,
+    lesson:'', rung:null, upgrade:'', productSent:false,
+    mirror:'', mirrorRung:null, mirrorSent:false,
+    enteredAt:{}
+  };
+  var state;
+  try { state = Object.assign({}, defaults, JSON.parse(localStorage.getItem(KEY) || '{}')); }
+  catch(e){ state = Object.assign({}, defaults); }
+  if (!state.pid){
+    state.pid = 'p' + Math.random().toString(36).slice(2, 10);
+  }
+
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+  }
+  function $(id){ return document.getElementById(id); }
+  function words(t){ return t.trim() ? t.trim().split(/\s+/).length : 0; }
+
+  var stageNames = ['פתיחה','היכרות עם המודל','שיחה בזוגות','תוצר אישי','רפלקציית מראה','סיום'];
+
+  /* ---------- fire-and-forget reporting (never blocks the journey) ---------- */
+  function report(col, data){
+    if (!window.samrSend || !state.name) return Promise.resolve();
+    var payload = Object.assign({ name: state.name, pid: state.pid }, data);
+    return window.samrSend(col, payload).catch(function(){});
+  }
+
+  /* ---------- word counters ---------- */
+  function updateWC(id, wcId, target){
+    var n = words($(id).value);
+    var el = $(wcId);
+    el.textContent = 'מילים: ' + n + ' · מומלץ: לפחות ' + target;
+    el.classList.toggle('met', n >= target);
+  }
+
+  /* ---------- render ---------- */
+  function render(focusHeading){
+    for (var i=0;i<=5;i++){
+      var sc = $('screen-'+i);
+      if (i===state.stage){ sc.classList.add('active'); } else { sc.classList.remove('active'); }
+    }
+    // rail (desktop)
+    var stations = document.querySelectorAll('.rail .station');
+    stations.forEach(function(st){
+      var n = parseInt(st.getAttribute('data-go'),10);
+      st.classList.toggle('done', n < state.stage || (n===5 && state.stage===5));
+      if (n===state.stage){ st.setAttribute('aria-current','step'); } else { st.removeAttribute('aria-current'); }
+      st.disabled = n > state.maxStage;
+      var dot = st.querySelector('.dot');
+      if (n>=1 && n<=4){ dot.textContent = (n < state.stage) ? '✓' : String(n); }
+    });
+    // mobile stepper - tappable, same rules as the rail
+    var stp = $('stepper'); stp.innerHTML='';
+    for (var k=0;k<=5;k++){
+      var d = document.createElement('button');
+      d.type = 'button';
+      d.className = 's-dot' + (k<state.stage ? ' done' : '') + (k===state.stage ? ' now' : '');
+      d.textContent = (k===0) ? '🚩' : (k===5 ? '🏁' : (k<state.stage ? '✓' : k));
+      d.disabled = k > state.maxStage;
+      d.setAttribute('data-go', String(k));
+      d.setAttribute('aria-label',
+        'תחנה: ' + stageNames[k] + (k===state.stage ? ' (התחנה הנוכחית)' : (k > state.maxStage ? ' (עוד לא הגעתן)' : ' (חזרה)')));
+      if (k===state.stage){ d.setAttribute('aria-current','step'); }
+      stp.appendChild(d);
+      if (k<5){ var ln=document.createElement('span'); ln.className='s-line'; stp.appendChild(ln); }
+    }
+    var nm = document.createElement('span');
+    nm.className='s-name'; nm.textContent = stageNames[state.stage];
+    nm.setAttribute('aria-hidden','true');
+    stp.appendChild(nm);
+
+    // stage 2 substates
+    $('pair-gate').hidden = !!state.pair;
+    $('pair-talk').hidden = !state.pair;
+    document.querySelectorAll('#q-list input').forEach(function(cb){
+      var qi = parseInt(cb.getAttribute('data-q'),10);
+      cb.checked = state.qs.indexOf(qi) !== -1;
+      cb.closest('.q-check').classList.toggle('checked', cb.checked);
+    });
+    var count = state.qs.length;
+    $('q-counter').textContent = 'נבחרו ' + count + ' שאלות' + (count>=3 ? ' ✓' : ' (צריך לפחות 3)');
+    $('send-insight').disabled = count < 3;
+    $('insight').value = state.insight;
+    updateWC('insight','wc-insight',10);
+
+    // stage 3 - personal product (lesson + rung + upgrade)
+    $('lesson').value = state.lesson;
+    document.querySelectorAll('#rung-grid .fmt').forEach(function(b,bi){
+      b.setAttribute('aria-pressed', state.rung===RUNGS[bi] ? 'true' : 'false');
+    });
+    $('upgrade').value = state.upgrade;
+    $('p-name').value = state.name;
+    $('product-sent').hidden = !state.productSent;
+    updateWC('lesson','wc-lesson',30);
+    updateWC('upgrade','wc-upgrade',25);
+
+    // stage 4 - mirror reflection
+    document.querySelectorAll('#rung-grid-mirror .fmt').forEach(function(b,bi){
+      b.setAttribute('aria-pressed', state.mirrorRung===RUNGS[bi] ? 'true' : 'false');
+    });
+    $('mirror').value = state.mirror;
+
+    // welcome + reflections
+    $('name-input').value = state.name;
+    $('understood').value = state.understood;
+    $('unclear').value = state.unclear;
+    updateWC('understood','wc-understood',60);
+    updateWC('unclear','wc-unclear',25);
+
+    renderTimechip();
+
+    if (focusHeading){
+      window.scrollTo(0,0);
+      var h = $('h-s'+state.stage);
+      if (h){ h.focus({preventScroll:true}); }
+    }
+  }
+
+  function go(n, focus){
+    var changed = n !== state.stage;
+    state.stage = n;
+    if (n > state.maxStage) state.maxStage = n;
+    if (changed){
+      state.enteredAt[n] = Date.now();
+      save();
+      report('samr_progress', { stage: n, stageName: stageNames[n] });
+    } else {
+      save();
+    }
+    render(focus !== false);
+  }
+
+  /* ---------- per-station time awareness (soft, never blocks) ---------- */
+  function renderTimechip(){
+    var n = state.stage;
+    document.querySelectorAll('[data-timechip]').forEach(function(ch){ ch.hidden = true; ch.classList.remove('over'); });
+    document.querySelectorAll('[data-nudge]').forEach(function(nd){ nd.classList.remove('show'); });
+    if (!(n in RECOMMENDED_MIN) || !state.enteredAt[n]) return;
+    var secs = Math.max(0, Math.floor((Date.now() - state.enteredAt[n]) / 1000));
+    var m = Math.floor(secs/60), s = secs%60;
+    var over = m >= RECOMMENDED_MIN[n];
+    var chip = document.querySelector('[data-timechip="'+n+'"]');
+    if (chip){
+      chip.hidden = false;
+      chip.textContent = '⏱ בתחנה: ' + m + ':' + String(s).padStart(2,'0');
+      chip.classList.toggle('over', over);
+    }
+    var nudge = document.querySelector('[data-nudge="'+n+'"]');
+    if (nudge){ nudge.classList.toggle('show', over); }
+  }
+  setInterval(renderTimechip, 1000);
+
+  /* ---------- events ---------- */
+  document.addEventListener('click', function(ev){
+    var t = ev.target.closest('[data-go]');
+    if (t && !t.disabled){ go(parseInt(t.getAttribute('data-go'),10)); return; }
+    var tn = ev.target.closest('[data-go-next]');
+    if (tn && !tn.disabled){ go(parseInt(tn.getAttribute('data-go-next'),10)); return; }
+  });
+
+  $('start-btn').addEventListener('click', function(){
+    var v = $('name-input').value.trim();
+    var st = $('name-status');
+    if (v.length < 2){
+      st.textContent = 'כדי להתחיל, כתבי בבקשה את שמך (לפחות 2 תווים).';
+      st.classList.add('show');
+      $('name-input').focus();
+      return;
+    }
+    st.classList.remove('show');
+    state.name = v.slice(0,80);
+    save();
+    go(1);
+  });
+
+  $('understood').addEventListener('input', function(){ state.understood = this.value; save(); updateWC('understood','wc-understood',60); });
+  $('unclear').addEventListener('input', function(){ state.unclear = this.value; save(); updateWC('unclear','wc-unclear',25); });
+  $('name-input').addEventListener('input', function(){ state.name = this.value.slice(0,80); save(); });
+
+  /* continue from station 1 -> send the personal processing to the teacher */
+  $('to-pairs').addEventListener('click', function(){
+    var st = $('reflection-status');
+    st.className = 'status';
+    report('samr_reflections', {
+      understood: state.understood.slice(0,20000),
+      unclear: state.unclear.slice(0,20000),
+      wordsUnderstood: words(state.understood),
+      wordsUnclear: words(state.unclear)
+    });
+    go(2);
+  });
+
+  $('pair-2').addEventListener('click', function(){ state.pair = 2; save(); render(false); });
+
+  document.querySelectorAll('#q-list input').forEach(function(cb){
+    cb.addEventListener('change', function(){
+      var qi = parseInt(this.getAttribute('data-q'),10);
+      var ix = state.qs.indexOf(qi);
+      if (this.checked && ix===-1) state.qs.push(qi);
+      if (!this.checked && ix!==-1) state.qs.splice(ix,1);
+      save(); render(false);
+    });
+  });
+  /* station 2 - joint insight */
+  $('insight').addEventListener('input', function(){ state.insight = this.value; save(); updateWC('insight','wc-insight',10); });
+
+  /* station 3 - lesson description composes the prompt live.
+     compose runs ONLY from the lesson input + the refresh button + startup,
+     so a manual edit of the prompt survives chip clicks and re-renders. */
+  function composePB(){
+    var t = state.lesson.trim();
+    $('pb').value = PB_HEAD + (t || '[כתבי את תיאור השיעור בתיבה שלמעלה - הוא ייכנס לכאן אוטומטית]') + PB_TAIL;
+  }
+  $('lesson').addEventListener('input', function(){ state.lesson = this.value; save(); composePB(); updateWC('lesson','wc-lesson',30); });
+  $('pb-refresh').addEventListener('click', function(){ composePB(); });
+
+  $('upgrade').addEventListener('input', function(){ state.upgrade = this.value; save(); updateWC('upgrade','wc-upgrade',25); });
+
+  /* station 4 - mirror text */
+  $('mirror').addEventListener('input', function(){ state.mirror = this.value; save(); });
+
+  /* rung pickers (station 3 + mirror) - same chip pattern, separate state keys */
+  function buildRungGrid(containerId, key){
+    var grid = $(containerId);
+    RUNGS.forEach(function(r){
+      var b = document.createElement('button');
+      b.className = 'fmt';
+      b.type = 'button';
+      b.textContent = r;
+      b.setAttribute('aria-pressed','false');
+      b.addEventListener('click', function(){
+        state[key] = (state[key] === r) ? null : r;
+        save(); render(false);
+      });
+      grid.appendChild(b);
+    });
+  }
+  buildRungGrid('rung-grid','rung');
+  buildRungGrid('rung-grid-mirror','mirrorRung');
+
+  $('p-name').addEventListener('input', function(){ state.name = this.value.slice(0,80); save(); });
+
+  /* ---------- prompt copy + reset (prompts are editable textareas) ---------- */
+  var promptOriginals = {};
+  ['p1'].forEach(function(id){ promptOriginals[id] = $(id).value; });
+
+  document.querySelectorAll('.copy-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var txt = $(btn.getAttribute('data-copy')).value.trim();
+      function done(){
+        btn.classList.add('copied');
+        var orig = btn.textContent;
+        btn.textContent = '✓ הועתק! עברי למודל השפה';
+        setTimeout(function(){ btn.classList.remove('copied'); btn.textContent = orig; }, 2600);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(done).catch(function(){ legacyCopy(txt); done(); });
+      } else { legacyCopy(txt); done(); }
+    });
+  });
+  document.querySelectorAll('.p-reset').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-reset');
+      if (!id || !(id in promptOriginals)) return; /* pb-refresh has its own handler */
+      $(id).value = promptOriginals[id];
+    });
+  });
+  function legacyCopy(txt){
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.setAttribute('readonly','');
+    ta.style.position = 'fixed'; ta.style.top = '-1000px';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- rubric dialog ---------- */
+  var dlg = $('rubric-dialog');
+  document.querySelectorAll('.open-rubric').forEach(function(b){
+    b.addEventListener('click', function(){ dlg.showModal(); $('rubric-close').focus(); });
+  });
+  $('rubric-close').addEventListener('click', function(){ dlg.close(); });
+  dlg.addEventListener('click', function(ev){
+    if (ev.target === dlg) dlg.close();
+  });
+
+  /* ---------- submissions ---------- */
+  function setStatus(el, msg, kind){
+    el.textContent = msg;
+    el.className = 'status show ' + kind;
+  }
+
+  $('send-insight').addEventListener('click', function(){
+    var btn = this;
+    var st = $('insight-status');
+    var txt = state.insight.trim();
+    if (txt.length < 5){
+      setStatus(st, 'כתבי בבקשה משפט קצר לפני השליחה.', 'err');
+      $('insight').focus();
+      return;
+    }
+    if (!window.samrSend){
+      setStatus(st, 'אין כרגע חיבור לרשת. אפשר לנסות שוב, או להמשיך בלי שליחה.', 'err');
+      $('insight-fallback').hidden = false;
+      return;
+    }
+    btn.disabled = true;
+    setStatus(st, 'שולחת...', 'ok');
+    window.samrSend('samr_pairs', {
+      name: state.name || 'ללא שם',
+      pid: state.pid,
+      qs: state.qs.slice().sort(),
+      words: words(txt),
+      text: txt.slice(0,4000)
+    }).then(function(){
+      state.insightSent = true; save();
+      setStatus(st, 'נשלח! ממשיכות לתחנה הבאה...', 'ok');
+      setTimeout(function(){ go(3); }, 900);
+    }).catch(function(){
+      setStatus(st, 'השליחה לא הצליחה. נסי שוב בעוד רגע - או המשיכי בלי שליחה.', 'err');
+      $('insight-fallback').hidden = false;
+    }).finally(function(){ btn.disabled = false; });
+  });
+
+  $('send-product').addEventListener('click', function(){
+    var btn = this;
+    var st = $('product-status');
+    /* a fresh attempt always starts with a clean slate - no leftover
+       success box next to a new error (Tom's bug report, 4.7) */
+    $('product-sent').hidden = true;
+    st.className = 'status';
+    st.textContent = '';
+    var name = $('p-name').value.trim();
+    var lesson = state.lesson.trim();
+    var upgrade = state.upgrade.trim();
+    var missing = [];
+    if (name.length < 2) missing.push('לכתוב את שמך');
+    if (lesson.length < 10) missing.push('לתאר את השיעור שלך (בחלק 1)');
+    if (!state.rung) missing.push('לבחור מדרגה נוכחית (בחלק 3)');
+    if (upgrade.length < 10) missing.push('לכתוב את תמצית השדרוג');
+    if (missing.length){
+      setStatus(st, 'כדי לשלוח ולעבור לתחנה האחרונה צריך: ' + missing.join(' · ') + '.', 'err');
+      return;
+    }
+    if (!window.samrSend){
+      setStatus(st, 'אין כרגע חיבור לרשת. נסי שוב בעוד רגע, או המשיכי בלי שליחה.', 'err');
+      $('product-fallback').hidden = false;
+      return;
+    }
+    state.name = name; save();
+    btn.disabled = true;
+    setStatus(st, 'שולחת...', 'ok');
+    window.samrSend('samr_products', {
+      name: name,
+      pid: state.pid,
+      lesson: lesson.slice(0,8000),
+      rung: state.rung.slice(0,40),
+      upgrade: upgrade.slice(0,8000),
+      words: words(upgrade)
+    }).then(function(){
+      state.productSent = true; save();
+      $('product-sent').hidden = false;
+      setStatus(st, 'התוצר נשלח למרצה! 🎉', 'ok');
+      setTimeout(function(){ go(4); }, 900);
+    }).catch(function(){
+      setStatus(st, 'השליחה לא הצליחה. נסי שוב - או המשיכי בלי שליחה.', 'err');
+      $('product-fallback').hidden = false;
+    }).finally(function(){ btn.disabled = false; });
+  });
+
+  $('send-mirror').addEventListener('click', function(){
+    var btn = this;
+    var st = $('mirror-status');
+    var txt = state.mirror.trim();
+    if (!state.mirrorRung){
+      setStatus(st, 'בחרי בבקשה מדרגה למעלה - ואז שלחי.', 'err');
+      return;
+    }
+    if (txt.length < 3){
+      setStatus(st, 'כתבי בבקשה נימוק קצר לפני השליחה.', 'err');
+      $('mirror').focus();
+      return;
+    }
+    if (!window.samrSend){
+      setStatus(st, 'אין כרגע חיבור לרשת. אפשר לנסות שוב, או לסיים בלי שליחה.', 'err');
+      $('mirror-fallback').hidden = false;
+      return;
+    }
+    btn.disabled = true;
+    setStatus(st, 'שולחת...', 'ok');
+    window.samrSend('samr_mirror', {
+      name: state.name || 'ללא שם',
+      pid: state.pid,
+      rung: state.mirrorRung.slice(0,40),
+      text: txt.slice(0,2000)
+    }).then(function(){
+      state.mirrorSent = true; save();
+      setStatus(st, 'נשלח! נתראה בדיון המסכם 🙌', 'ok');
+      setTimeout(function(){ go(5); }, 900);
+    }).catch(function(){
+      setStatus(st, 'השליחה לא הצליחה. נסי שוב - או סיימי בלי שליחה.', 'err');
+      $('mirror-fallback').hidden = false;
+    }).finally(function(){ btn.disabled = false; });
+  });
+
+  /* ---------- reset my progress ---------- */
+  $('reset-btn').addEventListener('click', function(){
+    if (confirm('לאפס את כל ההתקדמות שלך באפליקציה? (מה שכבר נשלח למרצה - נשאר אצלו)')){
+      try { localStorage.removeItem(KEY); } catch(e){}
+      var keepPid = state.pid;
+      state = Object.assign({}, defaults);
+      state.pid = keepPid;
+      go(0);
+    }
+  });
+
+  if (!state.enteredAt[state.stage]) state.enteredAt[state.stage] = Date.now();
+  composePB();
+  render(false);
+})();
+</script>
+
+<!-- Firestore submissions (loads independently; the app works even if this fails) -->
+<script type="module">
+  try {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+    const { getFirestore, collection, addDoc, serverTimestamp } =
+      await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyC2tCO7o0QODtHVa4PfKCt4eBX7XEtLR9I",
+      authDomain: "ono-health-gallery.firebaseapp.com",
+      projectId: "ono-health-gallery",
+      storageBucket: "ono-health-gallery.firebasestorage.app",
+      messagingSenderId: "315488346817",
+      appId: "1:315488346817:web:1833113a8e8d951694ea40"
+    };
+
+    const app = initializeApp(FIREBASE_CONFIG);
+    const db = getFirestore(app);
+
+    window.samrSend = function(colName, data){
+      const payload = Object.assign({}, data, { createdAt: serverTimestamp() });
+      return addDoc(collection(db, colName), payload);
+    };
+  } catch (e) {
+    /* offline or blocked - the app keeps working, sends will show a friendly error */
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /submissions/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.url is string
+                    && request.resource.data.url.size() <= 500;
+      allow update, delete: if false;
+    }
+
+    match /zpd_takeaways/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() <= 8000;
+      allow update, delete: if false;
+    }
+
+    match /zpd_products/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() <= 60000
+                    && request.resource.data.format is string
+                    && request.resource.data.format.size() <= 60;
+      allow update, delete: if false;
+    }
+
+    match /zpd_reflections/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.understood is string
+                    && request.resource.data.understood.size() <= 20000
+                    && request.resource.data.unclear is string
+                    && request.resource.data.unclear.size() <= 20000;
+      allow update, delete: if false;
+    }
+
+    match /zpd_progress/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.stage is int
+                    && request.resource.data.stage >= 0
+                    && request.resource.data.stage <= 5;
+      allow update, delete: if false;
+    }
+
+    match /zpd_choices/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.qs is list
+                    && request.resource.data.qs.size() <= 7;
+      allow update, delete: if false;
+    }
+
+    match /zpd_admin/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.kind == 'reset';
+      allow update, delete: if false;
+    }
+
+    match /samr_reflections/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.understood is string
+                    && request.resource.data.understood.size() <= 20000
+                    && request.resource.data.unclear is string
+                    && request.resource.data.unclear.size() <= 20000;
+      allow update, delete: if false;
+    }
+
+    match /samr_pairs/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.qs is list
+                    && request.resource.data.qs.size() <= 7
+                    && request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() <= 4000;
+      allow update, delete: if false;
+    }
+
+    match /samr_products/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.lesson is string
+                    && request.resource.data.lesson.size() > 0
+                    && request.resource.data.lesson.size() <= 8000
+                    && request.resource.data.upgrade is string
+                    && request.resource.data.upgrade.size() > 0
+                    && request.resource.data.upgrade.size() <= 8000
+                    && request.resource.data.rung is string
+                    && request.resource.data.rung.size() > 0
+                    && request.resource.data.rung.size() <= 40;
+      allow update, delete: if false;
+    }
+
+    match /samr_mirror/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.rung is string
+                    && request.resource.data.rung.size() <= 40
+                    && request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() <= 2000;
+      allow update, delete: if false;
+    }
+
+    match /samr_progress/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.stage is int
+                    && request.resource.data.stage >= 0
+                    && request.resource.data.stage <= 5;
+      allow update, delete: if false;
+    }
+
+    match /samr_admin/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.kind == 'reset';
+      allow update, delete: if false;
+    }
+  }
+}
