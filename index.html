@@ -501,7 +501,7 @@
       <section class="screen" id="screen-0" aria-labelledby="h-s0">
         <div class="stage-head">
           <span class="eyebrow">🚩 נקודת הזינוק</span>
-          <h2 id="h-s0" tabindex="-1">היום לומדות אחרת</h2>
+          <h2 id="h-s0" tabindex="-1">היום לומדים אחרת</h2>
         </div>
 
         <div class="card">
@@ -593,7 +593,7 @@
 
         <div class="card prompt-card">
           <div class="p-head">
-            <h4>או: גרסה חופשית, למי שאוהבת לזרום</h4>
+            <h4>או: למי שמעדיפה שיחה חופשית יותר</h4>
           </div>
           <textarea class="prompt-text" id="p2" rows="5" aria-label="פרומפט חופשי: שיחה פתוחה על המודל - ניתן לעריכה">אני מרצה בהכשרת מורים לחינוך מיוחד, ואני רוצה ללמוד ממך את מודל SAMR לשילוב טכנולוגיה ובינה מלאכותית בהוראה - בוא ננהל שיחה חופשית על הנושא - המטרה היא שבסופה אני אדע מהו מודל SAMR וכיצד הוא יכול לבוא לידי ביטוי בתחום העיסוק שלי</textarea>
           <div class="p-actions">
@@ -664,7 +664,7 @@
         <!-- Discussion -->
         <div id="pair-talk" hidden>
           <div class="callout">
-            <strong>איך משוחחות?</strong>
+            <strong>הנחיות לניהול השיחה</strong>
             במשימה שלקחתן הביתה ממפגש 1, כל אחת נזכרה במרצה או בקורס שעוררו בה השראה.
             עכשיו הסיפורים האלה פוגשים את הסולם שלמדתן הרגע:
             הראשונה מספרת, השנייה (והשלישית, אם אתן שלישייה) מקשיבה - ואז מתחלפות.
@@ -725,13 +725,13 @@
         </div>
 
         <div class="callout good">
-          <strong>תודו לבת הזוג (או לשלישייה) 🙏 - מכאן ממשיכות לבד.</strong>
+          <strong>תודו לבת הזוג (או לשלישייה) 🙏 - מכאן אתן ממשיכות לבד.</strong>
         </div>
 
         <div class="callout">
           עכשיו נבדוק אם המודל יכול לשמש <strong>ככלי עבודה אמיתי</strong>:
-          לוקחות שיעור אחד שלך, מבקשות מהבינה ניתוח לפי הסולם -
-          ויוצאות מהתחנה עם הצעת שדרוג קונקרטית של מדרגה אחת למעלה.
+          קחי שיעור אחד שלך לדוגמה, בקשי מהבינה ניתוח לפי הסולם של המודל -
+          ותצאי מהתחנה עם הצעת שדרוג קונקרטית של מדרגה אחת למעלה.
         </div>
 
         <div class="card">
@@ -1239,7 +1239,7 @@
     }).then(function(){
       state.insightSent = true; save();
       setStatus(st, 'נשלח! ממשיכות לתחנה הבאה...', 'ok');
-      setTimeout(function(){ go(3); }, 900);
+      go(3); /* immediate - a delayed timer proved fragile on some browsers (Tom, 15.7) */
     }).catch(function(){
       setStatus(st, 'השליחה לא הצליחה. נסי שוב בעוד רגע.', 'err');
     }).finally(function(){ btn.disabled = false; });
@@ -1284,7 +1284,7 @@
       state.productSent = true; save();
       $('product-sent').hidden = false;
       setStatus(st, 'התוצר נשלח למרצה! 🎉', 'ok');
-      setTimeout(function(){ go(4); }, 900);
+      go(4); /* immediate - a delayed timer proved fragile on some browsers (Tom, 15.7) */
     }).catch(function(){
       setStatus(st, 'השליחה לא הצליחה. נסי שוב - או המשיכי בלי שליחה.', 'err');
       $('product-fallback').hidden = false;
@@ -1318,7 +1318,7 @@
     }).then(function(){
       state.mirrorSent = true; save();
       setStatus(st, 'נשלח! נתראה בדיון המסכם 🙌', 'ok');
-      setTimeout(function(){ go(5); }, 900);
+      go(5); /* immediate - a delayed timer proved fragile on some browsers (Tom, 15.7) */
     }).catch(function(){
       setStatus(st, 'השליחה לא הצליחה. נסי שוב בעוד רגע.', 'err');
     }).finally(function(){ btn.disabled = false; });
